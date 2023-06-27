@@ -1,0 +1,499 @@
+import pygame
+import time
+import math
+import random
+from utils import scale_image, blit_rotate_center, blit_text_center
+pygame.init()
+pygame.font.init()
+import os
+
+os.chdir('c:\\Users\\aaron\\OneDrive - Ram Pumps Limited\\Desktop\\Python code\\Card games')
+
+BACK = scale_image(pygame.image.load("images/z_back.png"),0.3625)
+
+TWO_CLUBS = scale_image(pygame.image.load("images/2_of_clubs.png"), 0.25)
+TWO_DIAMONDS = scale_image(pygame.image.load("images/2_of_diamonds.png"), 0.25)
+TWO_SPADES = scale_image(pygame.image.load("images/2_of_spades.png"), 0.25)
+TWO_HEARTS = scale_image(pygame.image.load("images/2_of_hearts.png"), 0.25)
+
+THREE_CLUBS = scale_image(pygame.image.load("images/3_of_clubs.png"), 0.25)
+THREE_DIAMONDS = scale_image(pygame.image.load("images/3_of_diamonds.png"), 0.25)
+THREE_SPADES = scale_image(pygame.image.load("images/3_of_spades.png"), 0.25)
+THREE_HEARTS = scale_image(pygame.image.load("images/3_of_hearts.png"), 0.25)
+
+FOUR_CLUBS = scale_image(pygame.image.load("images/4_of_clubs.png"), 0.25)
+FOUR_DIAMONDS = scale_image(pygame.image.load("images/4_of_diamonds.png"), 0.25)
+FOUR_SPADES = scale_image(pygame.image.load("images/4_of_spades.png"), 0.25)
+FOUR_HEARTS = scale_image(pygame.image.load("images/4_of_hearts.png"), 0.25)
+
+FIVE_CLUBS = scale_image(pygame.image.load("images/5_of_clubs.png"), 0.25)
+FIVE_DIAMONDS = scale_image(pygame.image.load("images/5_of_diamonds.png"), 0.25)
+FIVE_SPADES = scale_image(pygame.image.load("images/5_of_spades.png"), 0.25)
+FIVE_HEARTS = scale_image(pygame.image.load("images/5_of_hearts.png"), 0.25)
+
+SIX_CLUBS = scale_image(pygame.image.load("images/6_of_clubs.png"), 0.25)
+SIX_DIAMONDS = scale_image(pygame.image.load("images/6_of_diamonds.png"), 0.25)
+SIX_SPADES = scale_image(pygame.image.load("images/6_of_spades.png"), 0.25)
+SIX_HEARTS = scale_image(pygame.image.load("images/6_of_hearts.png"), 0.25)
+
+SEVEN_CLUBS = scale_image(pygame.image.load("images/7_of_clubs.png"), 0.25)
+SEVEN_DIAMONDS = scale_image(pygame.image.load("images/7_of_diamonds.png"), 0.25)
+SEVEN_SPADES = scale_image(pygame.image.load("images/7_of_spades.png"), 0.25)
+SEVEN_HEARTS = scale_image(pygame.image.load("images/7_of_hearts.png"), 0.25)
+
+EIGHT_CLUBS = scale_image(pygame.image.load("images/8_of_clubs.png"), 0.25)
+EIGHT_DIAMONDS = scale_image(pygame.image.load("images/8_of_diamonds.png"), 0.25)
+EIGHT_SPADES = scale_image(pygame.image.load("images/8_of_spades.png"), 0.25)
+EIGHT_HEARTS = scale_image(pygame.image.load("images/8_of_hearts.png"), 0.25)
+
+NINE_CLUBS = scale_image(pygame.image.load("images/9_of_clubs.png"), 0.25)
+NINE_DIAMONDS = scale_image(pygame.image.load("images/9_of_diamonds.png"), 0.25)
+NINE_SPADES = scale_image(pygame.image.load("images/9_of_spades.png"), 0.25)
+NINE_HEARTS = scale_image(pygame.image.load("images/9_of_hearts.png"), 0.25)
+
+TEN_CLUBS = scale_image(pygame.image.load("images/10_of_clubs.png"), 0.25)
+TEN_DIAMONDS = scale_image(pygame.image.load("images/10_of_diamonds.png"), 0.25)
+TEN_SPADES = scale_image(pygame.image.load("images/10_of_spades.png"), 0.25)
+TEN_HEARTS = scale_image(pygame.image.load("images/10_of_hearts.png"), 0.25)
+
+JACK_CLUBS = scale_image(pygame.image.load("images/jack_of_clubs.png"), 0.25)
+JACK_DIAMONDS = scale_image(pygame.image.load("images/jack_of_diamonds.png"), 0.25)
+JACK_SPADES = scale_image(pygame.image.load("images/jack_of_spades.png"), 0.25)
+JACK_HEARTS = scale_image(pygame.image.load("images/jack_of_hearts.png"), 0.25)
+
+QUEEN_CLUBS = scale_image(pygame.image.load("images/queen_of_clubs.png"), 0.25)
+QUEEN_DIAMONDS = scale_image(pygame.image.load("images/queen_of_diamonds.png"), 0.25)
+QUEEN_SPADES = scale_image(pygame.image.load("images/queen_of_spades.png"), 0.25)
+QUEEN_HEARTS = scale_image(pygame.image.load("images/queen_of_hearts.png"), 0.25)
+
+KING_CLUBS = scale_image(pygame.image.load("images/king_of_clubs.png"), 0.25)
+KING_DIAMONDS = scale_image(pygame.image.load("images/king_of_diamonds.png"), 0.25)
+KING_SPADES = scale_image(pygame.image.load("images/king_of_spades.png"), 0.25)
+KING_HEARTS = scale_image(pygame.image.load("images/king_of_hearts.png"), 0.25)
+
+ACE_CLUBS = scale_image(pygame.image.load("images/ace_of_clubs.png"), 0.25)
+ACE_DIAMONDS = scale_image(pygame.image.load("images/ace_of_diamonds.png"), 0.25)
+ACE_SPADES = scale_image(pygame.image.load("images/ace_of_spades.png"), 0.25)
+ACE_HEARTS = scale_image(pygame.image.load("images/ace_of_hearts.png"), 0.25)
+
+
+
+class Card(object):
+    def __init__(self, suit, val, image):
+        self.suit = suit
+        self.value = val
+        self.image = image
+
+        if self.suit == "Spades" and self.value == 1:
+            self.image = ACE_SPADES
+        elif self.suit == "Clubs" and self.value == 1:
+            self.image = ACE_CLUBS
+        elif self.suit == "Diamonds" and self.value == 1:
+            self.image = ACE_DIAMONDS
+        elif self.suit == "Hearts" and self.value == 1:
+            self.image = ACE_HEARTS
+        elif self.suit == "Spades" and self.value == 2:
+            self.image = TWO_SPADES
+        elif self.suit == "Clubs" and self.value == 2:
+            self.image = TWO_CLUBS
+        elif self.suit == "Diamonds" and self.value == 2:
+            self.image = TWO_DIAMONDS
+        elif self.suit == "Hearts" and self.value == 2:
+            self.image = TWO_HEARTS
+        elif self.suit == "Spades" and self.value == 3:
+            self.image = THREE_SPADES
+        elif self.suit == "Clubs" and self.value == 3:
+            self.image = THREE_CLUBS
+        elif self.suit == "Diamonds" and self.value == 3:
+            self.image = THREE_DIAMONDS
+        elif self.suit == "Hearts" and self.value == 3:
+            self.image = THREE_HEARTS
+        elif self.suit == "Spades" and self.value == 4:
+            self.image = FOUR_SPADES
+        elif self.suit == "Clubs" and self.value == 4:
+            self.image = FOUR_CLUBS
+        elif self.suit == "Diamonds" and self.value == 4:
+            self.image = FOUR_DIAMONDS
+        elif self.suit == "Hearts" and self.value == 4:
+            self.image = FOUR_HEARTS
+        elif self.suit == "Spades" and self.value == 5:
+            self.image = FIVE_SPADES
+        elif self.suit == "Clubs" and self.value == 5:
+            self.image = FIVE_CLUBS
+        elif self.suit == "Diamonds" and self.value == 5:
+            self.image = FIVE_DIAMONDS
+        elif self.suit == "Hearts" and self.value == 5:
+            self.image = FIVE_HEARTS
+        elif self.suit == "Spades" and self.value == 6:
+            self.image = SIX_SPADES
+        elif self.suit == "Clubs" and self.value == 6:
+            self.image = SIX_CLUBS
+        elif self.suit == "Diamonds" and self.value == 6:
+            self.image = SIX_DIAMONDS
+        elif self.suit == "Hearts" and self.value == 6:
+            self.image = SIX_HEARTS
+        elif self.suit == "Spades" and self.value == 7:
+            self.image = SEVEN_SPADES
+        elif self.suit == "Clubs" and self.value == 7:
+            self.image = SEVEN_CLUBS
+        elif self.suit == "Diamonds" and self.value == 7:
+            self.image = SEVEN_DIAMONDS
+        elif self.suit == "Hearts" and self.value == 7:
+            self.image = SEVEN_HEARTS
+        elif self.suit == "Spades" and self.value == 8:
+            self.image = EIGHT_SPADES
+        elif self.suit == "Clubs" and self.value == 8:
+            self.image = EIGHT_CLUBS
+        elif self.suit == "Diamonds" and self.value == 8:
+            self.image = EIGHT_DIAMONDS
+        elif self.suit == "Hearts" and self.value == 8:
+            self.image = EIGHT_HEARTS
+        elif self.suit == "Spades" and self.value == 9:
+            self.image = NINE_SPADES
+        elif self.suit == "Clubs" and self.value == 9:
+            self.image = NINE_CLUBS
+        elif self.suit == "Diamonds" and self.value == 9:
+            self.image = NINE_DIAMONDS
+        elif self.suit == "Hearts" and self.value == 9:
+            self.image = NINE_HEARTS
+        elif self.suit == "Spades" and self.value == 10:
+            self.image = TEN_SPADES
+        elif self.suit == "Clubs" and self.value == 10:
+            self.image = TEN_CLUBS
+        elif self.suit == "Diamonds" and self.value == 10:
+            self.image = TEN_DIAMONDS
+        elif self.suit == "Hearts" and self.value == 10:
+            self.image = TEN_HEARTS
+        elif self.suit == "Spades" and self.value == 11:
+            self.image = JACK_SPADES
+        elif self.suit == "Clubs" and self.value == 11:
+            self.image = JACK_CLUBS
+        elif self.suit == "Diamonds" and self.value == 11:
+            self.image = JACK_DIAMONDS
+        elif self.suit == "Hearts" and self.value == 11:
+            self.image = JACK_HEARTS
+        elif self.suit == "Spades" and self.value == 12:
+            self.image = QUEEN_SPADES
+        elif self.suit == "Clubs" and self.value == 12:
+            self.image = QUEEN_CLUBS
+        elif self.suit == "Diamonds" and self.value == 12:
+            self.image = QUEEN_DIAMONDS
+        elif self.suit == "Hearts" and self.value == 12:
+            self.image = QUEEN_HEARTS
+        elif self.suit == "Spades" and self.value == 13:
+            self.image = KING_SPADES
+        elif self.suit == "Clubs" and self.value == 13:
+            self.image = KING_CLUBS
+        elif self.suit == "Diamonds" and self.value == 13:
+            self.image = KING_DIAMONDS
+        elif self.suit == "Hearts" and self.value == 13:
+            self.image = KING_HEARTS
+        elif self.suit == "Spades" and self.value == 14:
+            self.image = ACE_SPADES
+        elif self.suit == "Clubs" and self.value == 14:
+            self.image = ACE_CLUBS
+        elif self.suit == "Diamonds" and self.value == 14:
+            self.image = ACE_DIAMONDS
+        elif self.suit == "Hearts" and self.value == 14:
+            self.image = ACE_HEARTS
+
+    def show(self):
+        print("{} of {}".format(self.value, self.suit))
+
+    
+class Deck(object):
+    def __init__(self):
+        self.cards =[]
+        self.build()
+
+    def build(self):
+        for s in ["Spades", "Clubs", "Diamonds", "Hearts"]:
+            for v in range(1, 14):
+                self.cards.append(Card(s,v,None))
+
+    def show(self):
+        for c in self.cards:
+            c.show()
+
+    def shuffle(self):
+        for i in range(len(self.cards)-1, 0, -1):
+            r = random.randint(0, i)
+            self.cards[i], self.cards[r] = self.cards[r], self.cards[i]
+
+    def drawCard(self):
+        return self.cards.pop()
+
+class Player(object):
+    def __init__(self, name):
+        self.name = name
+        self.hand = []
+
+    def draw(self, deck):
+        self.hand.append(deck.drawCard())
+        return self
+
+    def showHand(self):
+        for card in self.hand:
+            card.show()
+
+    def discard(self):
+        return self.hand.pop()
+    
+    def makeTableaus(self):
+        self.t1 = []
+        self.t1.append(self.hand.pop())
+        self.t1.append(self.hand.pop())
+
+        self.t2 = []
+        self.t2.append(self.hand.pop())
+        self.t2.append(self.hand.pop())
+
+        self.t3 = []
+        self.t3.append(self.hand.pop())
+        self.t3.append(self.hand.pop())
+
+        self.t4 = []
+        self.t4.append(self.hand.pop())
+        self.t4.append(self.hand.pop())
+
+    def displayPlayerCards(self):
+        if self.t1 == []:
+            pass
+        elif len(self.t1) == 2:
+            WIN.blit(self.t1[1].image, (200,262.5))
+        elif len(self.t1) == 1:
+            WIN.blit(self.t1[0].image, (175,263.5))
+
+        if self.t2 == []:
+            pass
+        elif len(self.t2) == 2:
+            WIN.blit(self.t2[1].image, (375,262.5))
+        elif len(self.t2) == 1:
+            WIN.blit(self.t2[0].image, (350,263.5))
+
+        if self.t3 == []:
+            pass
+        elif len(self.t3) == 2:
+            WIN.blit(self.t3[1].image, (550,262.5))
+        elif len(self.t3) == 1:
+            WIN.blit(self.t3[0].image, (525,263.5))
+
+        if self.t4 == []:
+            pass
+        elif len(self.t4) == 2:
+            WIN.blit(self.t4[1].image, (725,262.5))
+        elif len(self.t4) == 1:
+            WIN.blit(self.t4[0].image, (700,263.5))
+
+        for card in range(len(self.hand)):
+            WIN.blit(self.hand[card].image, (50 + (card*50), 500))
+
+    def displayComputerCards(self):
+        if self.t1 == []:
+            pass
+        elif len(self.t1) == 2:
+            WIN.blit(self.t1[1].image, (200,25))
+        elif len(self.t1) == 1:
+            WIN.blit(self.t1[0].image, (175,26))
+
+        if self.t2 == []:
+            pass
+        elif len(self.t2) == 2:
+            WIN.blit(self.t2[1].image, (375,25))
+        elif len(self.t2) == 1:
+            WIN.blit(self.t2[0].image, (350,26))
+
+        if self.t3 == []:
+            pass
+        elif len(self.t3) == 2:
+            WIN.blit(self.t3[1].image, (550,25))
+        elif len(self.t3) == 1:
+            WIN.blit(self.t3[0].image, (525,26))
+
+        if self.t4 == []:
+            pass
+        elif len(self.t4) == 2:
+            WIN.blit(self.t4[1].image, (725,25))
+        elif len(self.t4) == 1:
+            WIN.blit(self.t4[0].image, (700,26))
+
+def displayDeck():
+    if deck != []:
+        WIN.blit(BACK, (1000, 26))
+
+    if play != []:
+        WIN.blit(play[len(play)-1].image, (1025, 262.5))
+
+
+    
+WIDTH,HEIGHT = 1400,700
+WIN = pygame.display.set_mode((WIDTH,HEIGHT))
+pygame.display.set_caption("Shithead")
+FPS = 60
+MAIN_FONT = pygame.font.SysFont("comicsans", 30)
+
+run = True
+clock = pygame.time.Clock()
+clock.tick(FPS)
+deck = Deck()
+player = Player("player")
+computer = Player("computer")
+play = []
+
+
+deck.shuffle()
+for c in range(0,11):
+    player.draw(deck)
+    computer.draw(deck)
+
+
+player.makeTableaus()
+player.displayPlayerCards()
+computer.makeTableaus()
+computer.displayComputerCards()
+displayDeck()
+placeCard = 5
+moveCard = 5
+hold = []
+rearrange = False
+start = False
+
+while run:
+    
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            exit()  
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            pos1 = pygame.mouse.get_pos()
+            for card in range(len(player.hand)):
+                if pos1[0] > 50+50*card and pos1[0] <100+50*card and pos1[1]>500 and pos1[1] <682:
+                    moveCard = card
+        if event.type == pygame.MOUSEBUTTONUP:
+            pos2 = pygame.mouse.get_pos()
+            for card in range(0,4):
+                if pos2[0] > 200+175*card and pos2[0] <324+175*card and pos2[1]>262.5 and pos2[1] <444.5:
+                    placeCard = card
+
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_SPACE]:
+        rearrange = True
+        start = True
+
+
+    if rearrange == False:
+        
+        if moveCard == 0 and placeCard == 0:
+            pygame.time.wait(500)
+            hold = player.hand[0]
+            player.hand[0]= player.t1[1]
+            player.t1[1]=hold 
+            player.displayPlayerCards()
+            pygame.display.update()
+            moveCard,placeCard=5,5
+
+        elif moveCard == 0 and placeCard == 1:
+            pygame.time.wait(500)
+            hold = player.hand[0]
+            player.hand[0]= player.t2[1]
+            player.t2[1]=hold 
+            player.displayPlayerCards()
+            pygame.display.update()
+            moveCard,placeCard=5,5
+
+        elif moveCard == 0 and placeCard == 2:
+            pygame.time.wait(500)
+            hold = player.hand[0]
+            player.hand[0]= player.t3[1]
+            player.t3[1]=hold 
+            player.displayPlayerCards()
+            pygame.display.update()
+            moveCard,placeCard=5,5
+
+        elif moveCard == 0 and placeCard == 3:
+            pygame.time.wait(500)
+            hold = player.hand[0]
+            player.hand[0]= player.t4[1]
+            player.t4[1]=hold 
+            player.displayPlayerCards()
+            pygame.display.update()
+            moveCard,placeCard=5,5
+
+        elif moveCard == 1 and placeCard == 0:
+            pygame.time.wait(500)
+            hold = player.hand[1]
+            player.hand[1]= player.t1[1]
+            player.t1[1]=hold 
+            player.displayPlayerCards()
+            pygame.display.update()
+            moveCard,placeCard=5,5
+
+        elif moveCard == 1 and placeCard == 1:
+            pygame.time.wait(500)
+            hold = player.hand[1]
+            player.hand[1]= player.t2[1]
+            player.t2[1]=hold 
+            player.displayPlayerCards()
+            pygame.display.update()
+            moveCard,placeCard=5,5
+
+        elif moveCard == 1 and placeCard == 2:
+            pygame.time.wait(500)
+            hold = player.hand[1]
+            player.hand[1]= player.t3[1]
+            player.t3[1]=hold 
+            player.displayPlayerCards()
+            pygame.display.update()
+            moveCard,placeCard=5,5
+
+        elif moveCard == 1 and placeCard == 3:
+            pygame.time.wait(500)
+            hold = player.hand[1]
+            player.hand[1]= player.t4[1]
+            player.t4[1]=hold 
+            player.displayPlayerCards()
+            pygame.display.update()
+            moveCard,placeCard=5,5
+
+        elif moveCard == 2 and placeCard == 0:
+            pygame.time.wait(500)
+            hold = player.hand[2]
+            player.hand[2]= player.t1[1]
+            player.t1[1]=hold 
+            player.displayPlayerCards()
+            pygame.display.update()
+            moveCard,placeCard=5,5
+
+        elif moveCard == 2 and placeCard == 1:
+            pygame.time.wait(500)
+            hold = player.hand[2]
+            player.hand[2]= player.t2[1]
+            player.t2[1]=hold 
+            player.displayPlayerCards()
+            pygame.display.update()
+            moveCard,placeCard=5,5
+
+        elif moveCard == 2 and placeCard == 2:
+            pygame.time.wait(500)
+            hold = player.hand[2]
+            player.hand[2]= player.t3[1]
+            player.t3[1]=hold 
+            player.displayPlayerCards()
+            pygame.display.update()
+            moveCard,placeCard=5,5
+
+        elif moveCard == 2 and placeCard == 3:
+            pygame.time.wait(500)
+            hold = player.hand[2]
+            player.hand[2]= player.t4[1]
+            player.t4[1]=hold 
+            player.displayPlayerCards()
+            pygame.display.update()
+            moveCard,placeCard=5,5
+
+    while start == True:
+        print("Game on BITCH!!!!!!")
+
+    
+    pygame.display.update()
+
+pygame.quit()
